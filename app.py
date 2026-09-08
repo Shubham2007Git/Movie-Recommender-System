@@ -86,14 +86,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 3. Data & Poster Fetching with Caching
-@st.cache_data
+@st.cache_resource
 def load_data():
     base_dir = os.path.dirname(os.path.abspath(__file__))
+
     movies_path = os.path.join(base_dir, 'model', 'movies.pkl')
     similarity_path = os.path.join(base_dir, 'model', 'similarity.pkl')
-    
-    movies = pickle.load(open(movies_path, 'rb'))
-    similarity = pickle.load(open(similarity_path, 'rb'))
+
+    with open(movies_path, 'rb') as f:
+        movies = pickle.load(f)
+
+    with open(similarity_path, 'rb') as f:
+        similarity = pickle.load(f)
+
     return movies, similarity
 
 movies, similarity = load_data()
